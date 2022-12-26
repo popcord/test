@@ -1,0 +1,71 @@
+<html>
+  <style>
+    /* Style de base de l'image */
+    img {
+      display: block;
+      margin: auto;
+      max-width: 80%;
+      border-radius: 1%;
+      z-index: 1;
+
+    }
+
+    .modal {
+      background-color: rgba(0, 0, 0, 0.5); /* Couleur de fond semi-transparente */
+      position: fixed; /* Positionnement fixe */
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex; /* Centrage de l'image en utilisant flexbox */
+      align-items: center;
+      justify-content: center;
+      
+    }
+
+    /* Style de l'image dans la modale */
+    .modal img {
+      max-width: 90%;
+      border-radius: 0%;
+      transition: all 500ms;
+    }
+  </style>
+
+<body>
+
+
+  <h1>image api</h1>
+
+  <!-- Grille d'images -->
+  <div id="list"class="container"> </div>
+  <script>
+const apiUrl = 'https://api-popcord.vercel.app/img/nsfw/hentai/';
+
+fetch(apiUrl)
+  .then(response => response.json())
+  .then(data => {
+    // The 'data' variable contains the JSON data returned from the API.
+    // You can now process the data as needed in your application.
+    // For example, you might want to render the data in a list or table:
+    const listElement = document.getElementById('list');
+    data.forEach(item => {
+      const listItemElement = document.createElement('li');
+      listItemElement.textContent = item;
+      listElement.appendChild(listItemElement);
+    });
+  })
+  .catch(error => {
+    // The 'error' variable contains information about the error that occurred.
+    // You can use this to provide feedback to the user or to debug the issue.
+    console.error(error);
+  });
+
+
+
+
+
+
+  </script>
+</body>
+
+</html>
