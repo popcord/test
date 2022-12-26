@@ -1,71 +1,104 @@
 <html>
   <style>
-    /* Style de base de l'image */
-    img {
-      display: block;
-      margin: auto;
-      max-width: 80%;
-      border-radius: 1%;
-      z-index: 1;
+body {
+  background-color: #282c34;
+  color: aliceblue;
+  font-family: sans-serif;
+}
 
-    }
+input[type='url'], textarea, input[type='text'] {
+  background-color: #44475a;
+  border: none;
+  border-radius: 4px;
+  color: aliceblue;
+  padding: 8px;
+  width: 100%;
+}
 
-    .modal {
-      background-color: rgba(0, 0, 0, 0.5); /* Couleur de fond semi-transparente */
-      position: fixed; /* Positionnement fixe */
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      display: flex; /* Centrage de l'image en utilisant flexbox */
-      align-items: center;
-      justify-content: center;
-      
-    }
+input[type='url']:focus, textarea:focus, input[type='text']:focus {
+  box-shadow: 0 0 4px 2px #6272a4;
+}
 
-    /* Style de l'image dans la modale */
-    .modal img {
-      max-width: 90%;
-      border-radius: 0%;
-      transition: all 500ms;
-    }
+label {
+  display: block;
+  font-size: 14px;
+  margin: 8px 0;
+}
+
+.submit {
+  margin-top: 16px;
+  text-align: center;
+}
+
+
+
+
+
+.btn {
+  background-color: #4caf50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.btn:hover {
+  background-color: #45a049;
+}
+
   </style>
 
 <body>
+  <label for="webhookurl" class="" >Webhook URL</label><input id="webhookurl" type="url" style="color: rgb(0, 0, 0)"> 
+
+  <label for="content">Message</label><textarea id="content" class="materialize-textarea" style="color: rgb(0, 0, 0)" maxlength="2000"></textarea>
+  <label for="webhookusername">Username</label><input id="webhookusername" type="text" style="color: rgb(0, 0, 0)" maxlength="32"> 
+  <label for="avatar_url">Avatar url </label><input id="avatar_url" type="url" style="color: rgb(0, 0, 0)"> 
 
 
-  <h1>image api</h1>
+  
+  <div class="submit" style="text-align: center;">
+    <a href="javascript:submit()" class="btn tooltipped" data-position="bottom" data-tooltip="Sending..."><i class="material-icons left"><i class="fas fa-paper-plane"></i></i>Send</a>
+</div>
 
-  <!-- Grille d'images -->
-  <div id="list"class="container"> </div>
-  <script>
-const apiUrl = 'https://api-popcord.vercel.app/img/nsfw/hentai/';
+<script>
 
-fetch(apiUrl)
-  .then(response => response.json())
-  .then(data => {
-    // The 'data' variable contains the JSON data returned from the API.
-    // You can now process the data as needed in your application.
-    // For example, you might want to render the data in a list or table:
-    const listElement = document.getElementById('list');
-    data.forEach(item => {
-      const listItemElement = document.createElement('li');
-      listItemElement.textContent = item;
-      listElement.appendChild(listItemElement);
-    });
-  })
-  .catch(error => {
-    // The 'error' variable contains information about the error that occurred.
-    // You can use this to provide feedback to the user or to debug the issue.
-    console.error(error);
-  });
+function submit() {
+  var url = document.getElementById('webhookurl');
+  var content = document.getElementById('content');
+  var username = document.getElementById('webhookusername');
+  var avatar_url = document.getElementById('avatar_url');
+  if (url == 0){
+    alert('Enter url!', 3000);
+  }else{
+    if (content == 0) {
+      alert('Enter a message!', 3000);
+    }else {
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({content: content, username: username, avatar_url: avatar_url})
+      })
+      .then(response => {
+        if (response.ok) {
+          alert('Success', 3000);
+        } else {
+          throw new Error('Error');
+        }
+      })
+      .catch(error => {
+        alert('Error', 3000);
+      });
+    }
+  }
+}
 
 
-
-
-
-
-  </script>
+</script>
 </body>
 
 </html>
